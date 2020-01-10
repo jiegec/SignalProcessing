@@ -1,6 +1,8 @@
+% load wavefrom from sound
 [sound, Fs] = audioread('dtmf-1.wav');
 y = transpose(sound(:, 1)); % left
 
+% dtmf freqs that we care
 f = [697, 770, 852, 941, 1209, 1336, 1477, 1633];
 
 begin = cputime;
@@ -14,6 +16,7 @@ for t = 1:tries
 
     res = sortrows(res, 1, 'descend');
 end
+% extract two largest components
 ans_go1 = res(1,2)
 ans_go2 = res(2,2)
 end_go = cputime - begin;
