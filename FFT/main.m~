@@ -1,0 +1,9 @@
+data1 = [1,2,3,4];
+data2 = [5,6,7,8];
+
+expected = conv(data1, data2);
+
+dft1 = fft([data1,]);
+dft2 = fft([data2,0,0,0]);
+dft_ans = dft1 .* dft2;
+ans_fft = round(ifft(dft_ans));
