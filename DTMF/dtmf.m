@@ -29,6 +29,7 @@ for t = 1:tries
     % plot(t, abs(freq));
     res2 = [];
     for i = 1:length(f)
+	% k = N * f / Fs
         val = freq(round(f(i)/Fs*len));
         res2 = [res2; [val, f(i)]];
     end
@@ -38,5 +39,6 @@ ans_fft1 = res2(1,2)
 ans_fft2 = res2(2,2)
 end_fft = cputime - begin;
 
+% print time used
 end_go
 end_fft

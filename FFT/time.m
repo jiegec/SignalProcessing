@@ -5,15 +5,18 @@ data2 = (1:m);
 
 ans1 = direct(data1, data2);
 ans2 = conv_fft(data1, data2);
+% Overlap Add with differnt L
 ans3 = overlap_add(data1, data2, n);
 ans4 = overlap_add(data1, data2, n/16);
 ans5 = overlap_add(data1, data2, n/256);
 ans6 = overlap_add(data1, data2, n/4096);
+% Overlap Save with different N
 ans7 = overlap_save(data1, data2, m);
 ans8 = overlap_save(data1, data2, m*2);
 ans9 = overlap_save(data1, data2, m*3);
 ans10 = overlap_save(data1, data2, m*4);
 
+% Correctness
 assert(norm(ans1-ans2) < 0.01);
 assert(norm(ans1-ans3) < 0.01);
 assert(norm(ans1-ans4) < 0.01);
