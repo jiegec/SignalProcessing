@@ -110,7 +110,7 @@ ans_fft2 = res2(2,2)
 1. 直接按公式计算，显然是 O(nm)
 2. FFT 圆卷积计算，两次 FFT，一次 IFFT，和一次点乘，复杂度是 O((n+m)log(n+m))
 3. Overlap Add，按块 FFT，块大小为 L，一共 n/L 块，所以复杂度是 O(n/L*(L+m)log(L+m))=O((n+m/L)log(L+m))
-4. Overlap Save，按块 FFT，块大小为 N，一共 (n-m)/(N-m) 块，复杂度是 O((n-m)/(N-m)*(N+m)log(N+m))
+4. Overlap Save，按块 FFT，块大小为 N，一共 n/(N-m) 块，复杂度是 O(n/(N-m)*(N+m)log(N+m))
 
 分别实现在 direct.m conv_fft.m overlap_add.m 和 overlap_save.m 中。其中 Overlap Add 基本按照维基百科上的伪代码实现， Overlap Save 则对维基百科上的伪代码进行了一些改动，按照 PPT 的图片实现以满足我们的要求。接着，我们对它进行性能测试，代码在 time.m 中。
 
@@ -141,6 +141,10 @@ ans_fft2 = res2(2,2)
 
 但实际上，当 L=n 的时候，会退化为直接用 FFT 的第二种算法，所以这种方法可能只有在 m 比较大的时候才能体现出它相当于 FFT 的优势。
 
-对于 Overlap Save 算法，一个合适的 N 也很重要。Wikipedia 上写的推荐 N 区间是 [2m, 4m]，这个和实验数据也是比较符合的。当 N=m 时，每个 overlap 区间退化成了只有一个数是正确的结果，所以变成了最慢的一种。当 N 取 2m 3m 和 4m 的时候，跑得都非常快，比其他算法都快。这是因为我们测试的数据里，m 都比较大，所以 n-m 项会比较小，计算起来会比较快。
+对于 Overlap Save 算法，一个合适的 N 也很重要。Wikipedia 上写的推荐 N 区间是 [2m, 4m]，这个和实验数据也是比较符合的。当 N=m 时，每个 overlap 区间退化成了只有一个数是正确的结果，所以变成了最慢的一种。当 N 取 2m 3m 和 4m 的时候，跑得都非常快，比其他算法都快。这一点在 m 比较小的时候更有优势，因为 log(N+m) 会比 log(n+m) 小，前面的系数 (N+m)/(N-m) 也会更小。
 
 ![](2020-01-11-10-30-39.png)
+
+总体结论：direct 复杂度高，比较慢，不要使用；FFT 比较快，并且是内置函数，使用方便；Overlap Add 需要选取合适的 L 值，在 L 值合适的时候和 FFT 速度差不多；Overlap Save 需要选取合适的 N 值，在 N 值合适的时候可能比 FFT 速度更快。
+
+### 频分复用
