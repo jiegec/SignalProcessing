@@ -13,21 +13,34 @@ Fs = Fs1;
 
 L = 4;
 up_Fs = Fs * L;
+order = 3000;
 
 up1 = upsample(y1, L);
-filter1 = fir1(length(up1), 0.25);
-up_f1 = conv(up1, filter1);
+filter1 = fir1(order, 0.25);
+up_f1 = filter(filter1, 1, up1);
 
 up2 = upsample(y2, L);
-filter2 = fir1(length(up2), [0.25 0.5]);
-up_f2 = conv(up2, filter2);
+filter2 = fir1(order, [0.25 0.5]);
+up_f2 = filter(filter2, 1, up2);
 
 up3 = upsample(y3, L);
-filter3 = fir1(length(up3), [0.5 0.75]);
-up_f3 = conv(up3, filter3);
+filter3 = fir1(order, [0.5 0.75]);
+up_f3 = filter(filter3, 1, up3);
 
 up4 = upsample(y4, L);
-filter4 = fir1(length(up4), 0.75, 'high');
-up_f4 = conv(up4, filter4);
+filter4 = fir1(order, 0.75, 'high');
+up_f4 = filter(filter4, 1, up4);
 
 res = up_f1 + up_f2 + up_f3 + up_f4;
+
+rec1 = filter(filter1, 1, res);
+rec1_down = downsample(rec1, L)*4;
+
+rec2 = filter(filter2, 1, res);
+rec2_down = downsample(rec2, L)*4;
+
+rec3 = filter(filter3, 1, res);
+rec3_down = downsample(rec3, L)*4;
+
+rec4 = filter(filter4, 1, res);
+rec4_down = downsample(rec4, L)*4;
