@@ -14,15 +14,15 @@ ans8 = overlap_save(data1, data2, m*2);
 ans9 = overlap_save(data1, data2, m*3);
 ans10 = overlap_save(data1, data2, m*4);
 
-assert(mean(ans1-ans2) < 1e-4);
-assert(mean(ans1-ans3) < 1e-4);
-assert(mean(ans1-ans4) < 1e-4);
-assert(mean(ans1-ans5) < 1e-4);
-assert(mean(ans1-ans6) < 1e-4);
-assert(mean(ans1-ans7) < 1e-4);
-assert(mean(ans1-ans8) < 1e-4);
-assert(mean(ans1-ans9) < 1e-4);
-assert(mean(ans1-ans10) < 1e-4);
+assert(norm(ans1-ans2) < 0.01);
+assert(norm(ans1-ans3) < 0.01);
+assert(norm(ans1-ans4) < 0.01);
+assert(norm(ans1-ans5) < 0.01);
+assert(norm(ans1-ans6) < 0.01);
+assert(norm(ans1-ans7) < 0.01);
+assert(norm(ans1-ans8) < 0.01);
+assert(norm(ans1-ans9) < 0.01);
+assert(norm(ans1-ans10) < 0.01);
 
 f1 = @() direct(data1, data2);
 timeit(f1)
