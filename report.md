@@ -198,7 +198,7 @@ order = 8064:
 
 ```matlab
 rec1 = filter(filter1, 1, res);
-rec1_down = downsample(rec1, L)*4;
+rec1_down = downsample(rec1, L)*L;
 ```
 
 此时 rec1_down 长度和原数据 y1 长度相同，频谱也相似：

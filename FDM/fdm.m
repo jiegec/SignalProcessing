@@ -32,15 +32,17 @@ filter4 = fir1(order, 0.75, 'high');
 up_f4 = filter(filter4, 1, up4);
 
 res = up_f1 + up_f2 + up_f3 + up_f4;
+%plot_freq(res, up_Fs);
 
+% energy is divided by L upon upsampling
 rec1 = filter(filter1, 1, res);
-rec1_down = downsample(rec1, L)*4;
+rec1_down = downsample(rec1, L)*L;
 
 rec2 = filter(filter2, 1, res);
-rec2_down = downsample(rec2, L)*4;
+rec2_down = downsample(rec2, L)*L;
 
 rec3 = filter(filter3, 1, res);
-rec3_down = downsample(rec3, L)*4;
+rec3_down = downsample(rec3, L)*L;
 
 rec4 = filter(filter4, 1, res);
-rec4_down = downsample(rec4, L)*4;
+rec4_down = downsample(rec4, L)*L;
